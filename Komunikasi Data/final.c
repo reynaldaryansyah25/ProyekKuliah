@@ -1,0 +1,228 @@
+#include <mega32.h>
+#include <stdlib.h>
+#include <delay.h>
+#include <alcd.h> // Alphanumeric LCD functions
+#include <stdio.h>
+
+#define ADC_VREF_TYPE 0xC0
+#define BUZZER_PIN 7
+
+unsigned int read_adc(unsigned char adc_input)
+{
+	ADMUX = adc_input | (ADC_VREF_TYPE & 0xff);
+
+	delay_us(10);
+
+	ADCSRA |= 0x40;
+	while ((ADCSRA & 0x10) == 0);
+	ADCSRA |= 0x10;
+
+	return ADCW;
+}
+
+int count = 0, max_guest = 40;
+float data, temperature;
+char container[16];
+char number[] =
+{
+	0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x10, 0x11, 0x12, 0x13, 0x14, 0x15,
+	0x16, 0x17, 0x18, 0x19, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29, 0x30, 0x31,
+	0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39, 0x40
+};
+
+void buzzer_beep(unsigned char times)
+{
+	unsigned char i;
+	for(i = 0; i < times; i++)
+		{
+		PORTD |= (1 << BUZZER_PIN); // Hidupkan buzzer
+		delay_ms(100);              // Delay 100 ms
+		PORTD &= ~(1 << BUZZER_PIN);// Matikan buzzer
+		delay_ms(100);              // Delay 100 ms
+		}
+}
+
+void read_temperature()
+{
+	data = read_adc(0);
+}
+
+void calc_temperature()
+{
+	temperature = data * (5.0 / 1024.0) * 100.0;
+}
+
+void show_check()
+{
+	lcd_clear();
+	lcd_gotoxy(0, 0);
+	lcd_puts("Silahkan Ukur");
+	lcd_gotoxy(0, 1);
+	lcd_puts("Suhu tubuhmu!");
+}
+
+void show_allow()
+{
+	PORTA.4 = 1;
+	buzzer_beep(1); // Buzzer beep sekali untuk LED hijau
+	lcd_clear();
+	lcd_gotoxy(0, 0);
+	lcd_puts("Welcome, silah-");
+	lcd_gotoxy(0, 1);
+	lcd_puts("kan masuk : )");
+	delay_ms (1000);
+}
+
+void show_disallow()
+{
+	PORTA.5 = 1;
+	buzzer_beep(3); // Buzzer beep tiga kali untuk LED merah
+	lcd_clear();
+	lcd_gotoxy(0, 0);
+	lcd_puts("Maaf kamu tidak");
+	lcd_gotoxy(0, 1);
+	lcd_puts("diizinkan masuk");
+	delay_ms(1000);
+	lcd_clear();
+	lcd_gotoxy(0, 0);
+	lcd_puts("Check up ke kli-");
+	lcd_gotoxy(0, 1);
+	lcd_puts("nik yang tersedia");
+	delay_ms(1000);
+	PORTA.5 = 0;
+}
+
+void show_body_temperature(float temp)
+{
+	sprintf(container, "%d", (int)temp); // Konversi suhu menjadi string menggunakan sprintf
+	lcd_clear();
+	lcd_gotoxy(0, 0);
+	lcd_puts("Suhu tubuh kamu ");
+	lcd_gotoxy(0, 1);
+	lcd_puts(container);
+	lcd_putchar(0xdf);
+	lcd_puts("C");
+}
+
+void show_limit_reached()
+{
+	lcd_clear();
+	lcd_gotoxy(0, 0);
+	lcd_puts("Telah mencapai");
+	lcd_gotoxy(0, 1);
+	lcd_puts("batas max!");
+}
+
+void show_total_guest()
+{
+	PORTB = number[count];
+}
+
+void motor_on_off()
+{
+	PORTA.3 = 1;
+	delay_ms(300);
+	PORTA.3 = 0;
+}
+
+void reset_device()
+{
+	count = 0;
+	data = 0.0;
+	temperature = 0.0;
+	PORTB = number[count];
+	show_check();
+}
+
+void main(void)
+{
+	PORTA = 0b00000110;
+	DDRA = 0b00111000; // Konfigurasi PA4 dan PA5 sebagai output, PA1 dan PA2 sebagai input
+
+	PORTB = 0x00;
+	DDRB = 0xff;
+
+	PORTC = 0x00;
+	DDRC = 0xff;
+
+	PORTD = 0x00;
+	DDRD = 0x80; // PD7 sebagai output
+
+	TCCR0 = 0x00;
+	TCNT0 = 0x00;
+	OCR0 = 0x00;
+
+	TCCR1A = 0x00;
+	TCCR1B = 0x00;
+	TCNT1H = 0x00;
+	TCNT1L = 0x00;
+	ICR1H = 0x00;
+	ICR1L = 0x00;
+	OCR1AH = 0x00;
+	OCR1AL = 0x00;
+	OCR1BH = 0x00;
+	OCR1BL = 0x00;
+
+	ASSR = 0x00;
+	TCCR2 = 0x00;
+	TCNT2 = 0x00;
+	OCR2 = 0x00;
+
+	MCUCR = 0x00;
+	MCUCSR = 0x00;
+
+	TIMSK = 0x00;
+
+	UCSRB = 0x00;
+
+	ACSR = 0x00;
+	SFIOR = 0x00;
+
+	ADMUX = ADC_VREF_TYPE & 0xff;
+	ADCSRA = 0x84;
+
+	SPCR = 0x00;
+
+	TWCR = 0x00;
+
+	lcd_init(16);
+
+	while (1)
+		{
+		if (PINA.1 == 0)
+			reset_device();
+
+		if (PINA.2 == 0)
+			{
+			read_temperature();
+			calc_temperature();
+			show_check();
+
+			if (count == max_guest)
+				show_limit_reached();
+			else
+				{
+				show_body_temperature(temperature);
+				delay_ms(2000);
+				if (temperature <= 38)
+					{
+					count++;
+					show_allow();
+					show_total_guest();
+					motor_on_off();
+					PORTA.4 = 0;
+					delay_ms(100);
+					if (count == max_guest)
+						show_limit_reached();
+					else
+						show_check();
+					}
+				else
+					{
+					show_disallow();
+					show_check();
+					}
+				}
+			}
+		}
+}
