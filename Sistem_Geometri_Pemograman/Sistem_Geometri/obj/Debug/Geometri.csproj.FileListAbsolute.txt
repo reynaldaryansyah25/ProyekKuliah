@@ -1,0 +1,7 @@
+D:\UNIVERSITAS AMIKOM YOGYAKARTA\.SEMESTER 2\PEMOGRAMAN\Final project\Sistem_Geometri\Sistem_Geometri\bin\Debug\Sistem_Geometri.exe.config
+D:\UNIVERSITAS AMIKOM YOGYAKARTA\.SEMESTER 2\PEMOGRAMAN\Final project\Sistem_Geometri\Sistem_Geometri\bin\Debug\Sistem_Geometri.exe
+D:\UNIVERSITAS AMIKOM YOGYAKARTA\.SEMESTER 2\PEMOGRAMAN\Final project\Sistem_Geometri\Sistem_Geometri\bin\Debug\Sistem_Geometri.pdb
+D:\UNIVERSITAS AMIKOM YOGYAKARTA\.SEMESTER 2\PEMOGRAMAN\Final project\Sistem_Geometri\Sistem_Geometri\obj\Debug\Geometri.csproj.AssemblyReference.cache
+D:\UNIVERSITAS AMIKOM YOGYAKARTA\.SEMESTER 2\PEMOGRAMAN\Final project\Sistem_Geometri\Sistem_Geometri\obj\Debug\Geometri.csproj.CoreCompileInputs.cache
+D:\UNIVERSITAS AMIKOM YOGYAKARTA\.SEMESTER 2\PEMOGRAMAN\Final project\Sistem_Geometri\Sistem_Geometri\obj\Debug\Sistem_Geometri.exe
+D:\UNIVERSITAS AMIKOM YOGYAKARTA\.SEMESTER 2\PEMOGRAMAN\Final project\Sistem_Geometri\Sistem_Geometri\obj\Debug\Sistem_Geometri.pdb

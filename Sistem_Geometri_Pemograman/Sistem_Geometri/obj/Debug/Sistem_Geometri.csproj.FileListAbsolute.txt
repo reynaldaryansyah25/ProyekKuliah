@@ -1,0 +1,7 @@
+D:\1KULIAH\.SEMESTER 2\PEMOGRAMAN\Final project\Sistem_Geometri\Sistem_Geometri\obj\Debug\Sistem_Geometri.csproj.AssemblyReference.cache
+D:\1KULIAH\.SEMESTER 2\PEMOGRAMAN\Final project\Sistem_Geometri\Sistem_Geometri\obj\Debug\Sistem_Geometri.csproj.CoreCompileInputs.cache
+D:\1KULIAH\.SEMESTER 2\PEMOGRAMAN\Final project\Sistem_Geometri\Sistem_Geometri\bin\Debug\Sistem_Geometri.exe.config
+D:\1KULIAH\.SEMESTER 2\PEMOGRAMAN\Final project\Sistem_Geometri\Sistem_Geometri\bin\Debug\Sistem_Geometri.exe
+D:\1KULIAH\.SEMESTER 2\PEMOGRAMAN\Final project\Sistem_Geometri\Sistem_Geometri\bin\Debug\Sistem_Geometri.pdb
+D:\1KULIAH\.SEMESTER 2\PEMOGRAMAN\Final project\Sistem_Geometri\Sistem_Geometri\obj\Debug\Sistem_Geometri.exe
+D:\1KULIAH\.SEMESTER 2\PEMOGRAMAN\Final project\Sistem_Geometri\Sistem_Geometri\obj\Debug\Sistem_Geometri.pdb
